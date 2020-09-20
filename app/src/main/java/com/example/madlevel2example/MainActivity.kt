@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madlevel2example.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -21,17 +22,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater);
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         initViews()
+
+        binding.btnAddReminder.setOnClickListener {
+            val reminder = binding.etReminder.text.toString();
+            addReminder(reminder);
+        }
     }
 
     private fun initViews() {
-        binding.btnAddReminder.setOnClickListener {
-            var reminder = binding.etReminder.text.toString();
-            addReminder(reminder);
-        }
-
         binding.rvReminders.layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false);
         binding.rvReminders.adapter = reminderAdapter;
 
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
             reminderAdapter.notifyDataSetChanged();
             binding.etReminder.text?.clear()
         } else {
-            Toast.makeText(this, "You must fil in the input field!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "You must fil in the input field!", Toast.LENGTH_SHORT).show();
+            Snackbar.make(etReminder, "You must fill in the input field!", Snackbar.LENGTH_SHORT).show()
         }
     }
 
